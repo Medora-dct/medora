@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>MEDORA | Platform for Home &amp; Hybrid Clinical Trials</title>
+    <meta name="description" content="MEDORA connects visit scheduling, mobile clinicians, offline eSource, secure scanning and patient concierge in one secure platform for sponsors, CROs and sites." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Resolve the theme before first paint so dark-mode visitors never see
+         a white flash. Storage key must match src/hooks/useTheme.js. -->
+    <script>
+      (function () {
+        var t = "light";
+        try {
+          var saved = localStorage.getItem("medora-theme");
+          if (saved === "light" || saved === "dark") t = saved;
+          else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) t = "dark";
+        } catch (e) { /* storage blocked — fall back to light */ }
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
