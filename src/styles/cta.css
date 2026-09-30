@@ -1,0 +1,4 @@
+/* ---------- CTA band (spec 4.4) ---------- */
+.pl-cta{border-top:1px solid var(--line);position:relative;background:var(--surface)}
+.pl-ctainner{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding:60px 26px}
+.pl-ctainner h2{margin:0 0 12px}

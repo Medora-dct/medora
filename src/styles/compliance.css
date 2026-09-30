@@ -1,0 +1,160 @@
+/* ---------- security and compliance (spec 4.8) ----------
+   Monochrome badge marks drifting sideways. Frameworks wear a shield and
+   run left, certifications wear a seal and run right, so the two groups
+   read apart without needing a status label on every item.
+
+   The track holds the set twice and travels exactly -50%, which lands the
+   second copy where the first began — that is what makes the loop seamless.
+   Spacing therefore lives on the item's margin, not on a flex gap: a gap
+   would add one extra space between the two copies and break the seam. */
+
+/* capped rather than full-bleed: a narrower band makes the drift readable
+   instead of the marks looking parked across the whole column */
+.pl-comp{
+  display:flex;flex-direction:column;gap:30px;margin-top:36px;
+  max-width:860px;margin-inline:auto;
+}
+
+.pl-comph{
+  margin:0 0 14px;display:flex;flex-direction:column;gap:5px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);
+}
+
+.pl-comph span{
+  font-size:19px;font-weight:500;letter-spacing:-.025em;line-height:1.2;color:var(--ink);
+}
+
+.pl-comph i{
+  font-style:normal;font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:.15em;color:var(--muted);
+}
+
+/* ---- the marquee ---- */
+.pl-compmarq{
+  position:relative;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent);
+}
+
+.pl-comptrack{
+  list-style:none;margin:0;padding:2px 0 0;
+  display:flex;width:max-content;
+  animation:pl-compmarq var(--dur,40s) linear infinite;
+}
+
+.pl-compmarq[data-dir="r"] .pl-comptrack{animation-direction:reverse}
+
+.pl-compmarq:hover .pl-comptrack,
+.pl-compmarq:focus-within .pl-comptrack{animation-play-state:paused}
+
+@keyframes pl-compmarq{
+  from{transform:translateX(0)}
+  to  {transform:translateX(-50%)}
+}
+
+/* ---- each standard ---- */
+.pl-compitem{
+  flex:none;width:128px;margin-right:34px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+
+.pl-compitem b{
+  font-size:13px;font-weight:500;letter-spacing:-.015em;color:var(--ink);margin-top:11px;
+}
+
+.pl-compitem > span{
+  font-size:11px;line-height:1.4;color:var(--muted);margin-top:3px;
+  min-height:calc(11px * 1.4 * 2);
+}
+
+/* ---- the award wreath (certifications only) ----
+   Two mirrored laurel branches with the standard set inside, so a
+   certification reads as something awarded rather than as another icon. */
+.pl-cwreath{display:block;width:132px;height:132px}
+.pl-cwreath svg{width:100%;height:100%;display:block;overflow:visible}
+
+.pl-cwleaf,
+.pl-cwtrim{fill:var(--ink);opacity:.88;transition:opacity .28s}
+
+.pl-cwstem{
+  fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;
+  opacity:.88;transition:opacity .28s;
+}
+
+.pl-cwt{
+  font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;
+  letter-spacing:-.02em;fill:var(--ink);
+}
+
+.pl-compitem--wreath{width:176px}
+.pl-compitem--wreath > span{margin-top:2px}
+
+.pl-compitem--wreath:hover .pl-cwleaf,
+.pl-compitem--wreath:hover .pl-cwtrim,
+.pl-compitem--wreath:hover .pl-cwstem{opacity:1}
+
+/* ---- the badge, monochrome ---- */
+.pl-cbadge{display:block;width:60px;height:60px}
+.pl-cbadge svg{width:100%;height:100%;display:block;overflow:visible}
+
+.pl-cbbody{
+  fill:var(--ink);opacity:.86;
+  transform-box:fill-box;transform-origin:center;
+  transition:opacity .28s,transform .28s cubic-bezier(.34,1.4,.5,1);
+}
+
+.pl-cbring{
+  fill:none;stroke:var(--line);stroke-width:1.6;
+  transform-box:fill-box;transform-origin:center;
+  transition:stroke .28s;
+}
+
+.pl-cbglyph{color:var(--bg)}
+.pl-cbglyph svg{width:16px;height:16px}
+
+.pl-compitem:hover .pl-cbbody{opacity:1;transform:translateY(-2px)}
+.pl-compitem:hover .pl-cbring{stroke:var(--ink)}
+
+/* ---- the row arrives, then starts drifting ---- */
+.pl-comp[data-run="0"] .pl-compmarq{opacity:0}
+
+.pl-comp[data-run="1"] .pl-compmarq{
+  animation:pl-compfade .6s ease-out both;
+}
+
+.pl-comp[data-run="1"] .pl-compgroup:nth-child(2) .pl-compmarq{animation-delay:.12s}
+
+@keyframes pl-compfade{
+  from{opacity:0;transform:translateY(10px)}
+  to  {opacity:1;transform:none}
+}
+
+@media (max-width:900px){
+  .pl-comp{gap:36px;margin-top:36px}
+  .pl-compitem{width:118px;margin-right:28px}
+  .pl-cbadge{width:54px;height:54px}
+  .pl-compitem b{margin-top:11px;font-size:12.5px}
+  .pl-compitem--wreath{width:158px}
+  .pl-cwreath{width:118px;height:118px}
+}
+
+@media (max-width:640px){
+  .pl-compitem{width:104px;margin-right:22px}
+  .pl-cbadge{width:50px;height:50px}
+  .pl-compitem > span{font-size:10.5px}
+  .pl-compitem--wreath{width:142px}
+  .pl-cwreath{width:106px;height:106px}
+}
+
+/* Reduced motion: no drift. The row becomes an ordinary scroller the
+   reader moves themselves, with the edge fade dropped so nothing looks cut. */
+@media (prefers-reduced-motion:reduce){
+  .pl-comptrack{animation:none}
+  .pl-compmarq{
+    overflow-x:auto;
+    -webkit-mask-image:none;mask-image:none;
+  }
+  .pl-comp[data-run="0"] .pl-compmarq{opacity:1}
+  .pl-comp[data-run="1"] .pl-compmarq{animation:none}
+  .pl-compitem:hover .pl-cbbody{transform:none}
+}

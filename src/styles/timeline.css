@@ -1,0 +1,124 @@
+/* ---------- day timeline (spec 4.7) ---------- */
+.pl-day{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border-top:2px solid var(--line)}
+.pl-daycell{padding:22px 18px 0;border-right:1px solid var(--line);position:relative}
+.pl-daycell:last-child{border-right:0}
+.pl-daycell::before{content:"";position:absolute;top:-2px;left:0;width:34px;height:2px;background:var(--accent)}
+.pl-daytime{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--ink);margin-bottom:10px}
+.pl-dayevent{font-size:14px;line-height:1.55;color:var(--body)}
+
+/* ---------- lifecycle stepper (spec 5.5 / 6.3) ----------
+   Visual on the left, the stage on the right, arrows to move — the layout
+   pleurat.com uses for its focus section. Type scale follows theirs:
+   item titles clamp(28px,2.6vw,42px), body clamp(15px,1.35vw,19px), and
+   transitions in the .2s–.3s band. */
+
+.pl-life{
+  display:grid;grid-template-columns:.86fr 1.14fr;gap:56px;align-items:center;
+  margin-top:48px;
+}
+
+/* ---- the dial ---- */
+.pl-lifedial{position:relative;display:grid;place-items:center}
+.pl-lifedial svg{width:100%;max-width:300px;height:auto;display:block}
+
+.pl-lifearc{
+  fill:none;stroke:var(--line);stroke-width:10;stroke-linecap:round;
+  transition:stroke .25s ease,stroke-width .25s ease;
+}
+
+.pl-lifearc--on{stroke:var(--accent);stroke-width:14}
+
+.pl-lifebig{
+  font-family:'Archivo',sans-serif;font-size:74px;font-weight:500;
+  letter-spacing:-.04em;fill:var(--ink);
+  dominant-baseline:middle;
+}
+
+.pl-lifeof{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+  fill:var(--muted);
+}
+
+/* the segments are the real tab stops, laid over their arcs */
+.pl-lifetabs{position:absolute;inset:0;pointer-events:none}
+
+.pl-lifedot{
+  position:absolute;top:50%;left:50%;width:44px;height:44px;
+  margin:-22px 0 0 -22px;padding:0;border:0;border-radius:50%;
+  background:none;cursor:pointer;pointer-events:auto;
+  /* pushed out onto its own arc: rotate, step out, rotate back upright */
+  transform:
+    rotate(calc(var(--a) * 1deg))
+    translateY(-118px)
+    rotate(calc(var(--a) * -1deg));
+}
+
+.pl-lifedot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.pl-lifedot:nth-child(1){--a:30}
+.pl-lifedot:nth-child(2){--a:90}
+.pl-lifedot:nth-child(3){--a:150}
+.pl-lifedot:nth-child(4){--a:210}
+.pl-lifedot:nth-child(5){--a:270}
+.pl-lifedot:nth-child(6){--a:330}
+
+/* ---- the stage ---- */
+.pl-lifepanel{display:flex;flex-direction:column;gap:30px}
+.pl-lifepanel:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+
+.pl-lifefade{animation:pl-lifein .3s ease-out both}
+
+.pl-lifehead{
+  margin:0 0 12px;
+  font-size:clamp(28px,2.6vw,42px);font-weight:500;
+  letter-spacing:-.03em;line-height:1.08;color:var(--ink);
+}
+
+.pl-lifemeta{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;
+  color:var(--muted);margin-bottom:20px;
+}
+
+.pl-lifebody{
+  margin:0 0 22px;max-width:46ch;
+  font-size:clamp(15px,1.35vw,19px);line-height:1.6;color:var(--body);
+}
+
+/* ---- arrows ---- */
+.pl-lifenav{display:flex;gap:10px}
+
+.pl-lifebtn{
+  width:46px;height:46px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  transition:background .2s,border-color .2s,color .2s;
+}
+
+.pl-lifebtn:hover{background:var(--surface);border-color:var(--accent);color:var(--accent)}
+
+@keyframes pl-lifein{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+@media (max-width:900px){
+  .pl-life{grid-template-columns:1fr;gap:34px;margin-top:34px}
+  .pl-lifedial svg{max-width:232px}
+  .pl-lifedot{width:38px;height:38px;margin:-19px 0 0 -19px}
+  .pl-lifedot{transform:
+    rotate(calc(var(--a) * 1deg)) translateY(-91px) rotate(calc(var(--a) * -1deg))}
+  .pl-lifebig{font-size:62px}
+  .pl-lifepanel{gap:24px}
+}
+
+@media (max-width:640px){
+  .pl-lifedial svg{max-width:190px}
+  .pl-lifedot{transform:
+    rotate(calc(var(--a) * 1deg)) translateY(-75px) rotate(calc(var(--a) * -1deg))}
+  .pl-lifebig{font-size:52px}
+  .pl-lifemeta{margin-bottom:16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pl-lifefade{animation:none}
+  .pl-lifearc{transition:none}
+}

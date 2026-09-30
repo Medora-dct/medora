@@ -1,0 +1,12 @@
+/* ---------- counted figures ----------
+   Base styles for the CountUp component. Every caller restyles the size
+   and colour, but they rely on these two for the number-and-suffix
+   baseline, so the rules live here rather than being repeated. */
+
+.pl-countval{
+  display:flex;align-items:baseline;gap:1px;
+  font-size:clamp(28px,2.9vw,36px);font-weight:500;letter-spacing:-.03em;
+  line-height:1;color:var(--ink);
+}
+
+.pl-countsuffix{font-size:.6em;color:var(--accent);letter-spacing:0}

@@ -1,0 +1,89 @@
+/* ---------- footer (spec 4.3) ---------- */
+.pl-foot {
+  border-top: 1px solid var(--line)
+}
+
+.pl-footcols {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: 28px;
+  padding: 48px 26px;
+  border-bottom: 1px solid var(--line)
+}
+
+.pl-footbrand img {
+  height: 22px;
+  width: auto;
+  display: block;
+  margin-bottom: 14px
+}
+
+.pl-foottag {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  max-width: 22ch
+}
+
+.pl-colhead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  letter-spacing: .14em;
+  color: var(--accent);
+  margin-bottom: 15px
+}
+
+.pl-collink {
+  display: block;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0 0 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--body)
+}
+
+.pl-collink:hover {
+  color: var(--ink)
+}
+
+.pl-footlegal {
+  padding: 22px 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.pl-footnote {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7
+}
+
+.pl-footlink {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  letter-spacing: .11em;
+  color: var(--muted);
+}
+
+.pl-footlink button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0
+}
+
+.pl-footlink button:hover {
+  color: var(--ink)
+}

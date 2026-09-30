@@ -1,0 +1,62 @@
+/* ==================================================================
+   WalkingNurseScene → MEDORA theme bridge
+   The component reads every colour from --ws-* custom properties, so
+   it is restyled here rather than edited. Light maps onto the site
+   tokens; dark is added, since the component ships light-only.
+   ================================================================== */
+
+.pl .ws-scene{
+  /* surfaces and ink come straight from the page tokens */
+  --ws-paper:var(--bg);
+  --ws-bg-top:var(--bg);
+  --ws-bg-bottom:var(--surface);
+  --ws-ink:#3A362C;          /* warm graphite — page --ink is too heavy at 2.2px */
+  --ws-ink-soft:var(--muted);
+  --ws-ghost:var(--line);
+  --ws-win:var(--surface2);
+  --ws-amber:var(--accent);
+  --ws-amber-soft:var(--accent-quiet);
+  /* hues the page has no token for, pulled warm so they sit beside amber */
+  --ws-teal:#35787B;
+  --ws-teal-deep:#245659;
+  --ws-teal-soft:#CFE0DE;
+  --ws-clay:#C4704E;
+  --ws-sage:#97A783;
+  --ws-steel:#BFC3C0;
+  --ws-skin:#EABF99;
+  --ws-hair:#4A382E;
+  border-bottom:1px solid var(--line);
+}
+/* the six rules that bypass the token system */
+.pl .ws-scene .ws-trouser{stroke:#2C4749}
+.pl .ws-scene .ws-trouser--front{stroke:#355456}
+.pl .ws-scene .ws-shoe{fill:#F2EEE0}
+.pl .ws-scene .ws-shoe--front{fill:#FFFDF3}
+.pl .ws-scene .ws-cloud{fill:#FFFDF3}
+.pl .ws-scene .ws-pack-flap{fill:#AE6042}
+
+.pl[data-theme="dark"] .ws-scene{
+  --ws-paper:var(--surface);
+  --ws-bg-top:var(--bg);
+  --ws-bg-bottom:#191710;
+  --ws-ink:#B4AE9D;          /* ink inverts: strokes must carry on a dark ground */
+  --ws-ink-soft:#6E6A5E;
+  --ws-ghost:var(--line);
+  --ws-win:#241F13;
+  --ws-amber:var(--accent);
+  --ws-amber-soft:#D9A24A;   /* lit windows and lamps should still glow */
+  --ws-teal:#3F8B8D;
+  --ws-teal-deep:#2A6467;
+  --ws-teal-soft:#26403F;
+  --ws-clay:#A75E42;
+  --ws-sage:#748365;
+  --ws-steel:#6E7573;
+  --ws-skin:#C9A07C;
+  --ws-hair:#554136;
+}
+.pl[data-theme="dark"] .ws-scene .ws-trouser{stroke:#3A5A5C}
+.pl[data-theme="dark"] .ws-scene .ws-trouser--front{stroke:#44686A}
+.pl[data-theme="dark"] .ws-scene .ws-shoe{fill:#C9C3B4}
+.pl[data-theme="dark"] .ws-scene .ws-shoe--front{fill:#DED9CB}
+.pl[data-theme="dark"] .ws-scene .ws-cloud{fill:#1C1A13}
+.pl[data-theme="dark"] .ws-scene .ws-pack-flap{fill:#8E4F36}

@@ -1,0 +1,16 @@
+/* ---------- gated + resource cards ---------- */
+.pl-reslist{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.pl-rescard{border:1px solid var(--line);background:var(--surface);padding:22px;text-align:left;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:10px}
+.pl-rescard:hover{border-color:var(--accent)}
+.pl-rescard b{font-size:16px;font-weight:500;letter-spacing:-.015em;line-height:1.3;color:var(--ink)}
+.pl-rescard p{margin:0;font-size:13.5px;line-height:1.55;color:var(--body)}
+.pl-restag{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+.pl-filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}
+.pl-filter{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.11em;
+  border:1px solid var(--line);background:none;color:var(--muted);padding:7px 13px;cursor:pointer;
+}
+.pl-filter[data-on="1"]{border-color:var(--ink);color:var(--ink)}

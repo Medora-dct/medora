@@ -1,0 +1,88 @@
+/* ---------- beliefs manifesto (spec 4.7) ----------
+   The statement holds still on the left while the principles pass on the
+   right. Each principle sits at low opacity until it reaches the middle of
+   the screen, then lifts, lights its number and draws its rule — so the
+   page is read one belief at a time rather than skimmed as a list. */
+
+.pl-belief{
+  display:grid;grid-template-columns:.82fr 1.18fr;gap:70px;
+  margin-top:10px;align-items:start;
+}
+
+.pl-beliefaside{position:sticky;top:112px;align-self:start}
+.pl-beliefaside .pl-h2{margin:0 0 16px}
+.pl-beliefsub{margin:0 0 26px;max-width:34ch}
+
+.pl-beliefs{list-style:none;margin:0;padding:0;counter-reset:belief}
+
+.pl-beliefrow{
+  position:relative;padding:40px 0 38px;
+  opacity:.3;transform:translateY(8px);
+  transition:opacity .55s ease,transform .55s cubic-bezier(.22,.68,.3,1);
+}
+
+.pl-beliefrow[data-on="1"]{opacity:1;transform:none}
+
+/* hairline that fills with accent as the principle arrives */
+.pl-beliefrule{position:absolute;top:0;left:0;right:0;height:1px;background:var(--line)}
+
+.pl-beliefrule::after{
+  content:"";position:absolute;inset:0;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .7s cubic-bezier(.22,.68,.3,1);
+}
+
+.pl-beliefrow[data-on="1"] .pl-beliefrule::after{transform:scaleX(1)}
+
+/* oversized numeral sitting behind the text, out at the right margin */
+.pl-beliefghost{
+  position:absolute;top:22px;right:0;z-index:0;pointer-events:none;
+  font-size:clamp(58px,6.5vw,104px);font-weight:500;letter-spacing:-.05em;
+  line-height:.8;color:var(--line-soft);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .7s ease,transform .7s cubic-bezier(.22,.68,.3,1);
+}
+
+.pl-beliefrow[data-on="1"] .pl-beliefghost{opacity:1;transform:none}
+
+.pl-beliefnum{
+  position:relative;z-index:1;display:block;margin-bottom:16px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;
+  color:var(--muted);transition:color .45s;
+}
+
+.pl-beliefrow[data-on="1"] .pl-beliefnum{color:var(--accent)}
+
+.pl-beliefh{
+  position:relative;z-index:1;margin:0 0 14px;
+  font-size:clamp(21px,2.5vw,29px);font-weight:500;letter-spacing:-.028em;
+  line-height:1.24;color:var(--ink);max-width:22ch;
+}
+
+.pl-beliefd{
+  position:relative;z-index:1;margin:0;
+  font-size:14.5px;line-height:1.68;color:var(--body);max-width:50ch;
+}
+
+@media (max-width:900px){
+  .pl-belief{grid-template-columns:1fr;gap:10px}
+  .pl-beliefaside{position:static}
+  .pl-beliefaside .pl-link{margin-bottom:12px}
+  .pl-beliefsub{max-width:56ch}
+  .pl-beliefrow{padding:32px 0 30px}
+  .pl-beliefh{max-width:100%}
+}
+
+@media (max-width:640px){
+  .pl-beliefrow{padding:26px 0 26px}
+  .pl-beliefghost{font-size:52px;top:18px}
+  .pl-beliefd{font-size:14px}
+}
+
+/* Reduced motion: everything already lit, nothing slides. */
+@media (prefers-reduced-motion:reduce){
+  .pl-beliefrow{opacity:1;transform:none;transition:none}
+  .pl-beliefghost{opacity:1;transform:none;transition:none}
+  .pl-beliefrule::after{transform:scaleX(1);transition:none}
+  .pl-beliefnum{color:var(--accent);transition:none}
+}

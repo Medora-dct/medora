@@ -1,0 +1,230 @@
+/* ---------- platform grid (spec 5.3) ----------
+   Three columns of twelve for the app, nine for the capabilities. Each
+   capability is an icon over a hairline with its copy beneath — no card,
+   no border box, so six of them read as one set rather than six panels.
+   The foundation runs full width underneath, because it is what all six
+   stand on rather than a seventh capability. */
+
+.pl-bento {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  gap: 34px;
+  align-items: start;
+  margin-top: 44px;
+}
+
+/* ---- the app ---- */
+.pl-bentoapp {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 22px 24px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 14px;
+}
+
+.pl-bentoeyebrow {
+  align-self: flex-start;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: var(--muted);
+}
+
+.pl-bentophone {
+  width: 100%;
+  max-width: 186px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--bg);
+  box-shadow: var(--shadow-pop);
+}
+
+.pl-bentophone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.pl-bentoapp figcaption {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--body);
+  text-align: center;
+}
+
+/* ---- the six ---- */
+.pl-bentogrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px 30px;
+}
+
+.pl-bentoitem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pl-bentoico {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: var(--accent-quiet);
+  color: var(--accent);
+  transition: background .2s, color .2s;
+}
+
+/* the rule under the icon is the only structure each item gets */
+.pl-bentoh {
+  width: 100%;
+  margin: 0 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.pl-bentocopy {
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--body);
+}
+
+.pl-bentogo {
+  margin-top: auto;
+  padding-left: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  color: var(--muted);
+  transition: color .2s, gap .2s;
+}
+
+.pl-bentoitem:hover .pl-bentoico {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.pl-bentoitem:hover .pl-bentogo {
+  color: var(--accent);
+  gap: 12px;
+}
+
+/* ---- the foundation ---- */
+.pl-bentofound {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px 30px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.pl-bentofoundh {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: var(--accent);
+}
+
+.pl-bentofound ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+}
+
+.pl-bentofound li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: var(--body);
+}
+
+.pl-bentofound li svg {
+  color: var(--accent);
+  flex: none;
+}
+
+/* ---- arrival ---- */
+.pl-bento[data-run="0"] .pl-bentoapp,
+.pl-bento[data-run="0"] .pl-bentoitem {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.pl-bento[data-run="1"] .pl-bentoapp {
+  animation: pl-btin .55s cubic-bezier(.22, .68, .3, 1) both;
+}
+
+.pl-bento[data-run="1"] .pl-bentoitem {
+  animation: pl-btin .55s cubic-bezier(.22, .68, .3, 1) both;
+  animation-delay: calc(.1s + var(--i) * 0.07s);
+}
+
+@keyframes pl-btin {
+  from { opacity: 0; transform: translateY(14px) }
+  to   { opacity: 1; transform: none }
+}
+
+@media (max-width: 1100px) {
+  .pl-bento {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .pl-bentoapp {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .pl-bentoeyebrow { flex: 1 1 100% }
+  .pl-bentophone { max-width: 150px }
+  .pl-bentoapp figcaption { flex: 1 1 240px; text-align: left }
+}
+
+@media (max-width: 760px) {
+  .pl-bentogrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .pl-bentogrid { grid-template-columns: 1fr }
+  .pl-bentoapp { padding: 20px 18px }
+  .pl-bentophone { max-width: 132px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-bento[data-run="0"] .pl-bentoapp,
+  .pl-bento[data-run="0"] .pl-bentoitem {
+    opacity: 1;
+    transform: none;
+  }
+
+  .pl-bento[data-run="1"] .pl-bentoapp,
+  .pl-bento[data-run="1"] .pl-bentoitem {
+    animation: none;
+  }
+}

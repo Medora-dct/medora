@@ -1,0 +1,16 @@
+/* ---------- sticky anchor rail (spec 4.7) ---------- */
+.pl-railpage{display:grid;grid-template-columns:230px 1fr;gap:0}
+.pl-anchorrail{border-right:1px solid var(--line);background:var(--surface)}
+.pl-anchorinner{position:sticky;top:76px;padding:26px 20px}
+.pl-anchorhead{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;
+  color:var(--muted);margin-bottom:16px;
+}
+.pl-anchorlink{
+  display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  font-family:inherit;font-size:14px;color:var(--body);padding:8px 0 8px 14px;
+  border-left:2px solid transparent;line-height:1.35;
+}
+.pl-anchorlink:hover{color:var(--ink)}
+.pl-anchorlink[data-on="1"]{color:var(--ink);border-left-color:var(--accent)}
+.pl-railbody{min-width:0}

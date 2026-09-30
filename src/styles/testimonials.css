@@ -1,0 +1,118 @@
+/* ---------- testimonials (spec 4.7) ----------
+   An inverted panel. The page is white cards and hairlines throughout, so
+   the quotes get the opposite treatment and become the one thing that
+   stops you. Background is three layers: the site's rule pattern, a teal
+   bloom from the top, and a set of slowly breathing arcs. */
+
+.pl-tm{
+  /* the panel is dark in BOTH themes, so its accent does not flip with the
+     page — it is always the lighter teal that carries on a dark ground */
+  --tm-accent:#35bdb1;
+  --tm-ink:#f1f8f6;
+  --tm-soft:rgba(241,248,246,.62);
+
+  position:relative;overflow:hidden;margin-top:40px;
+  background:var(--term-bg);
+  background-image:
+    radial-gradient(ellipse 58% 62% at 50% -6%, rgba(53,189,177,.20), transparent 68%),
+    repeating-linear-gradient(to bottom, rgba(255,255,255,.035) 0 1px, transparent 1px 6px);
+}
+
+/* a hairline of accent across the top edge */
+.pl-tm::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right, transparent, var(--tm-accent), transparent);
+  opacity:.55;
+}
+
+.pl-tmwash{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.pl-tmarc{
+  fill:none;stroke:var(--tm-accent);stroke-width:1;opacity:.09;
+  transform-box:fill-box;transform-origin:center;
+  animation:pl-tmbreathe 9s ease-in-out infinite;
+  animation-delay:calc(var(--i) * -1.6s);
+}
+
+.pl-tminner{
+  position:relative;z-index:1;
+  padding:62px 44px 46px;max-width:860px;margin-inline:auto;text-align:center;
+}
+
+.pl-tmmark{
+  display:block;font-family:Georgia,'Times New Roman',serif;
+  font-size:74px;line-height:.5;color:var(--tm-accent);opacity:.5;margin-bottom:22px;
+}
+
+.pl-tmquote{
+  margin:0;animation:pl-tmin .5s cubic-bezier(.22,.68,.3,1) both;
+}
+
+.pl-tmquote p{
+  margin:0 auto;max-width:34ch;
+  font-size:clamp(20px,2.4vw,30px);line-height:1.36;letter-spacing:-.025em;
+  font-weight:500;color:var(--tm-ink);
+}
+
+.pl-tmwho{display:flex;flex-direction:column;gap:4px;margin-top:26px}
+.pl-tmwho b{font-size:15px;font-weight:500;color:var(--tm-accent);letter-spacing:-.01em}
+.pl-tmwho span{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.11em;
+  color:var(--tm-soft);text-transform:uppercase;
+}
+
+/* ---- the faces double as the navigation ---- */
+.pl-tmstrip{display:flex;justify-content:center;gap:14px;margin-top:38px}
+
+.pl-tmface{
+  width:46px;height:46px;border-radius:50%;padding:0;cursor:pointer;flex:none;
+  display:grid;place-items:center;overflow:hidden;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  color:var(--tm-soft);
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;
+  opacity:.5;transform:scale(.88);
+  transition:opacity .25s,transform .25s,border-color .25s,color .25s;
+}
+
+.pl-tmface img{width:100%;height:100%;object-fit:cover;display:block}
+
+.pl-tmface:hover{opacity:.82;transform:scale(.96)}
+
+.pl-tmface[data-on="1"]{
+  opacity:1;transform:scale(1.06);
+  border-color:var(--tm-accent);color:var(--tm-accent);
+  background:rgba(53,189,177,.16);
+  box-shadow:0 0 0 4px rgba(53,189,177,.14);
+}
+
+.pl-tmface:focus-visible{outline:2px solid var(--tm-accent);outline-offset:3px}
+
+@keyframes pl-tmin{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes pl-tmbreathe{
+  0%,100%{transform:scale(1);opacity:.09}
+  50%    {transform:scale(1.06);opacity:.16}
+}
+
+@media (max-width:900px){
+  .pl-tm{margin-top:32px}
+  .pl-tminner{padding:48px 26px 38px}
+  .pl-tmmark{font-size:60px;margin-bottom:16px}
+  .pl-tmstrip{margin-top:30px;gap:11px}
+}
+
+@media (max-width:640px){
+  .pl-tminner{padding:38px 20px 32px}
+  .pl-tmquote p{max-width:100%;font-size:clamp(18px,5vw,22px)}
+  .pl-tmwho{margin-top:20px}
+  .pl-tmface{width:40px;height:40px;font-size:11px}
+  .pl-tmstrip{gap:9px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pl-tmquote{animation:none}
+  .pl-tmarc{animation:none}
+}

@@ -1,0 +1,16 @@
+/* ---------- forms ---------- */
+.pl-form{display:grid;gap:16px;border:1px solid var(--line);background:var(--surface);padding:26px}
+.pl-field{display:flex;flex-direction:column;gap:7px}
+.pl-field label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--muted)}
+.pl-field input,.pl-field select,.pl-field textarea{
+  font-family:inherit;font-size:14.5px;padding:11px 12px;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink);width:100%;
+}
+.pl-field textarea{min-height:96px;resize:vertical}
+.pl-row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pl-check{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:var(--body);line-height:1.5}
+.pl-check input{margin-top:3px;flex:none;accent-color:var(--accent)}
+.pl-checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pl-success{border:1px solid var(--accent);background:var(--accent-quiet);padding:22px;color:var(--ink)}
+.pl-success b{display:block;font-size:17px;font-weight:500;margin-bottom:8px}
+.pl-req{color:var(--accent)}

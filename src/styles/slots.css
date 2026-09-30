@@ -1,0 +1,6 @@
+/* ---------- empty / unverified slot ---------- */
+.pl-slot{
+  border:1px dashed var(--line);background:var(--surface);padding:16px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+  color:var(--muted);line-height:1.7;
+}

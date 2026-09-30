@@ -1,0 +1,102 @@
+/* ---------- featured case studies (spec 4.7) ----------
+   Three cards that arrive in sequence. Each one draws its accent rule
+   across the top, lifts into place, then counts its figure up — the
+   number lands last, which is the thing worth remembering. */
+
+.pl-cases{margin-top:64px}
+
+.pl-casesh{
+  margin:0 0 12px;font-size:clamp(22px,2.6vw,30px);font-weight:500;
+  letter-spacing:-.028em;line-height:1.2;color:var(--ink);
+}
+
+.pl-casegrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px;
+}
+
+.pl-case{
+  position:relative;display:flex;flex-direction:column;
+  border:1px solid var(--line);background:var(--bg);padding:30px 26px 26px;
+  transition:border-color .2s,background .2s,transform .28s cubic-bezier(.22,.68,.3,1);
+}
+
+.pl-case:hover{border-color:var(--accent);background:var(--surface);transform:translateY(-3px)}
+
+/* the rule that draws itself across the top edge */
+.pl-casedraw{
+  position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+}
+
+.pl-casetag{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.15em;
+  color:var(--muted);margin-bottom:22px;
+}
+
+.pl-casemetric{display:flex;flex-direction:column;gap:6px;margin-bottom:22px}
+
+.pl-casemetric .pl-countval{
+  font-size:clamp(38px,4.4vw,52px);font-weight:500;letter-spacing:-.04em;
+  line-height:.94;color:var(--accent);
+}
+
+.pl-casemetric .pl-countsuffix{font-size:.52em;color:var(--accent);opacity:.75}
+
+.pl-casemlabel{
+  font-size:13px;color:var(--muted);line-height:1.45;max-width:24ch;
+}
+
+.pl-caseh{
+  margin:0 0 12px;font-size:18px;font-weight:500;letter-spacing:-.02em;
+  line-height:1.3;color:var(--ink);
+}
+
+.pl-casebody{
+  margin:0 0 22px;font-size:14px;line-height:1.62;color:var(--body);
+}
+
+.pl-caselink{margin-top:auto;padding-left:0}
+.pl-case:hover .pl-caselink{color:var(--accent)}
+
+/* ---- arrival ---- */
+.pl-cases[data-run="0"] .pl-case{opacity:0;transform:translateY(16px)}
+
+.pl-cases[data-run="1"] .pl-case{
+  animation:pl-casein .55s cubic-bezier(.22,.68,.3,1) both;
+  animation-delay:calc(var(--i) * 0.13s);
+}
+
+.pl-cases[data-run="1"] .pl-casedraw{
+  animation:pl-casedraw .5s cubic-bezier(.22,.68,.3,1) both;
+  animation-delay:calc(.2s + var(--i) * 0.13s);
+}
+
+@keyframes pl-casein{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes pl-casedraw{
+  from{transform:scaleX(0)}
+  to{transform:scaleX(1)}
+}
+
+@media (max-width:900px){
+  .pl-cases{margin-top:48px}
+  .pl-casegrid{grid-template-columns:1fr;gap:14px;margin-top:30px}
+  .pl-case{padding:26px 22px 22px}
+}
+
+@media (max-width:640px){
+  .pl-case{padding:22px 18px 20px}
+  .pl-casemetric .pl-countval{font-size:40px}
+  .pl-casetag{margin-bottom:18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pl-cases[data-run="0"] .pl-case{opacity:1;transform:none}
+  .pl-cases[data-run="1"] .pl-case{animation:none}
+  .pl-casedraw{transform:scaleX(1)}
+  .pl-cases[data-run="1"] .pl-casedraw{animation:none}
+  .pl-case:hover{transform:none}
+}

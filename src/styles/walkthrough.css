@@ -1,0 +1,161 @@
+/* ---------- product walkthrough (CTA band) ----------
+   A skeleton of the app cycling through four screens. One 14s loop drives
+   every part, so the scene fades, the sidebar highlight, the cursor and its
+   click ripples all stay in step. Percentages below are that 14s:
+     0-20%   dashboard      click at 17% on the second nav item
+     23-44%  visit list     click at 40% on a table row
+     47-69%  visit form     click at 65% on the submit button
+     72-93%  done           the tick draws in
+*/
+
+.pl-wtwrap{
+  width:100%;max-width:560px;margin-inline:auto;
+  padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--bg);
+  box-shadow:var(--shadow-pop);
+}
+
+.pl-wt{width:100%;height:auto;display:block}
+
+/* ---------- furniture ---------- */
+.pl-wtpage{fill:var(--bg)}
+.pl-wtchrome{fill:var(--surface2)}
+.pl-wtdot{fill:var(--line)}
+.pl-wturl{fill:var(--bg)}
+.pl-wtside{fill:var(--surface)}
+.pl-wtlogo{fill:var(--accent);opacity:.5}
+.pl-wtnavico{fill:var(--muted);opacity:.45}
+/* the selected row: accent at a fixed opacity, so it reads as clearly
+   highlighted in both themes rather than the near-invisible 10% tint */
+.pl-wtnavhl{fill:var(--accent);fill-opacity:.17;stroke:var(--accent);stroke-opacity:.38;stroke-width:1}
+.pl-wtframe{fill:none;stroke:var(--line);stroke-width:1.4}
+.pl-wtrule{stroke:var(--line);stroke-width:1;fill:none}
+
+.pl-wtbar{fill:var(--muted);opacity:.32}
+.pl-wtbar--ink{fill:var(--ink);opacity:.5}
+.pl-wtbar--accent{fill:var(--accent);opacity:.75}
+.pl-wtbar--onaccent{fill:var(--accent-ink);opacity:.8}
+
+.pl-wtcard{fill:var(--bg);stroke:var(--line);stroke-width:1}
+.pl-wtpanel{fill:var(--accent-quiet);stroke:var(--line);stroke-width:1}
+.pl-wthero{fill:var(--accent-quiet)}
+.pl-wtstrip{fill:var(--accent-quiet)}
+.pl-wtempty{fill:var(--bg);stroke:var(--line);stroke-width:1;stroke-dasharray:4 4}
+.pl-wtfield{fill:var(--bg);stroke:var(--line);stroke-width:1}
+
+.pl-wtbtn{fill:var(--accent)}
+.pl-wtbtn--ghost{fill:var(--bg);stroke:var(--accent);stroke-width:1.2}
+
+.pl-wtico{fill:none;stroke:var(--muted);stroke-width:1.4;opacity:.5}
+.pl-wtico--warn{stroke:var(--warn);opacity:.8}
+.pl-wtavatar{fill:var(--accent);opacity:.3}
+
+.pl-wtdonut{fill:none;stroke:var(--accent);stroke-width:11;opacity:.75;
+  stroke-dasharray:96 30;transform-box:fill-box;transform-origin:center;transform:rotate(-90deg)}
+.pl-wtcol{fill:var(--accent);opacity:.7}
+.pl-wtcol--soft{opacity:.32}
+.pl-wttrack{fill:var(--line)}
+.pl-wtfill{fill:var(--accent);opacity:.8}
+
+.pl-wtpip{fill:var(--muted);opacity:.4}
+.pl-wtpip--ok{fill:var(--accent);opacity:.8}
+.pl-wtpip--warn{fill:var(--warn);opacity:.8}
+.pl-wtpip--okfill{fill:var(--accent);opacity:.16}
+.pl-wtpip--warnfill{fill:var(--warn);opacity:.22}
+
+.pl-wtchip{fill:var(--surface2);stroke:var(--line);stroke-width:1}
+.pl-wtchip--ok{fill:var(--accent-quiet);stroke:var(--accent)}
+.pl-wtchip--warn{fill:var(--warn-quiet);stroke:var(--warn)}
+.pl-wtchip--info{fill:var(--surface2);stroke:var(--muted)}
+
+.pl-wttab{fill:var(--bg);stroke:var(--line);stroke-width:1}
+.pl-wttab--on{fill:var(--accent);stroke:var(--accent)}
+
+.pl-wtradio{fill:none;stroke:var(--muted);stroke-width:1.4;opacity:.6}
+.pl-wtradio--on{fill:var(--accent);stroke:var(--accent);opacity:1}
+
+/* ---------- the completion screen ---------- */
+.pl-wtscrim{fill:var(--bg);opacity:.96}
+.pl-wtdonebg{fill:var(--accent-quiet);stroke:var(--accent);stroke-width:2}
+.pl-wtcheck{
+  fill:none;stroke:var(--accent);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:100;stroke-dashoffset:100;
+}
+
+/* ---------- the cursor ---------- */
+.pl-wtptr{fill:var(--ink);stroke:var(--bg);stroke-width:1.4;stroke-linejoin:round}
+.pl-wtripple{
+  fill:none;stroke:var(--accent);stroke-width:2.5;opacity:0;
+  transform-box:fill-box;transform-origin:center;
+}
+
+/* ================= MOTION ================= */
+
+.pl-wtscene,
+.pl-wtcursor{opacity:0}
+
+.pl-wt[data-run="1"] .pl-wtscene--1{animation:pl-wts1 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtscene--2{animation:pl-wts2 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtscene--3{animation:pl-wts3 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtscene--4{animation:pl-wts4 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wttop{animation:pl-wttop 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtnavhl{animation:pl-wtnav 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtcursor{animation:pl-wtcursor 14s ease-in-out infinite}
+.pl-wt[data-run="1"] .pl-wtripple{animation:pl-wtripple 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtcheck{animation:pl-wtcheck 14s linear infinite}
+.pl-wt[data-run="1"] .pl-wtdone{animation:pl-wtpop 14s cubic-bezier(.3,1.4,.5,1) infinite;
+  transform-box:fill-box;transform-origin:center}
+
+@keyframes pl-wts1{0%,20%{opacity:1}23%,97%{opacity:0}100%{opacity:1}}
+@keyframes pl-wts2{0%,20%{opacity:0}23%,44%{opacity:1}47%,100%{opacity:0}}
+@keyframes pl-wts3{0%,44%{opacity:0}47%,69%{opacity:1}72%,100%{opacity:0}}
+@keyframes pl-wts4{0%,69%{opacity:0}72%,93%{opacity:1}96%,100%{opacity:0}}
+
+/* the chrome belongs to the app, so it leaves with the last screen */
+@keyframes pl-wttop{0%,69%{opacity:1}72%,93%{opacity:0}96%,100%{opacity:1}}
+
+/* the highlight steps from Dashboard to the second item and back on loop */
+@keyframes pl-wtnav{0%,20%{transform:translateY(0)}23%,94%{transform:translateY(40px)}97%,100%{transform:translateY(0)}}
+
+@keyframes pl-wtcursor{
+  0%       {transform:translate(500px,360px);opacity:0}
+  4%       {transform:translate(486px,338px);opacity:1}
+  14%,19%  {transform:translate(90px,140px);opacity:1}
+  33%,42%  {transform:translate(420px,350px);opacity:1}
+  58%,67%  {transform:translate(794px,513px);opacity:1}
+  73%      {transform:translate(600px,430px);opacity:.85}
+  79%,100% {transform:translate(500px,360px);opacity:0}
+}
+
+/* three clicks, at 17%, 40% and 65% */
+@keyframes pl-wtripple{
+  0%,15%   {transform:scale(.05);opacity:0}
+  17%      {transform:scale(.3);opacity:.6}
+  23%,38%  {transform:scale(1);opacity:0}
+  38.1%    {transform:scale(.05);opacity:0}
+  40%      {transform:scale(.3);opacity:.6}
+  46%,63%  {transform:scale(1);opacity:0}
+  63.1%    {transform:scale(.05);opacity:0}
+  65%      {transform:scale(.3);opacity:.6}
+  71%,100% {transform:scale(1);opacity:0}
+}
+
+@keyframes pl-wtcheck{0%,72%{stroke-dashoffset:100}78%,93%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:100}}
+
+@keyframes pl-wtpop{0%,70%{transform:scale(.72);opacity:0}75%,93%{transform:scale(1);opacity:1}96%,100%{transform:scale(.72);opacity:0}}
+
+/* Reduced motion: hold the first screen, no cursor, no cycling. */
+@media (prefers-reduced-motion:reduce){
+  .pl-wtscene--1,.pl-wttop{opacity:1}
+  .pl-wtscene--2,.pl-wtscene--3,.pl-wtscene--4,.pl-wtcursor{opacity:0}
+  .pl-wt[data-run="1"] .pl-wtscene,
+  .pl-wt[data-run="1"] .pl-wttop,
+  .pl-wt[data-run="1"] .pl-wtnavhl,
+  .pl-wt[data-run="1"] .pl-wtcursor,
+  .pl-wt[data-run="1"] .pl-wtripple,
+  .pl-wt[data-run="1"] .pl-wtcheck,
+  .pl-wt[data-run="1"] .pl-wtdone{animation:none}
+}
+
+@media (max-width:900px){
+  .pl-wtwrap{max-width:100%;padding:10px;border-radius:15px}
+}

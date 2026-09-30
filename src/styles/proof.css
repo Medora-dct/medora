@@ -1,0 +1,237 @@
+/* ---------- proof stats (spec 4.7) ----------
+   The photograph is the panel, not a neighbour: frosted tiles sit over it,
+   clustered to the right, over a scrim weighted to that side so the glass
+   has something dark to read against. */
+
+.pl-proof {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+
+  width: 75%;            /* nine columns of twelve */
+  max-width: 100%;
+  margin: 40px auto 0;
+  min-height: 520px;
+  display: grid;
+  align-items: end;
+
+  /* always a dark ground, so its accent does not flip with the page */
+  --pf-accent: #4fd1c2;
+  --pf-ink: #ffffff;
+}
+
+/* ---- the picture ---- */
+.pl-proofbg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 32% center;
+  transform: scale(1.06);
+  transition: transform 1.4s cubic-bezier(.22, .68, .3, 1);
+}
+
+.pl-proof[data-run="1"] .pl-proofbg {
+  transform: scale(1);
+}
+
+.pl-proofscrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(9, 18, 17, .22) 0%, rgba(9, 18, 17, .30) 34%, rgba(9, 18, 17, .70) 60%, rgba(9, 18, 17, .86) 100%),
+    linear-gradient(to top, rgba(9, 18, 17, .46), transparent 52%);
+}
+
+/* ---- the tiles ---- */
+.pl-proofstats {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0 0 0 auto;
+  padding: clamp(14px, 1.8vw, 22px);
+  width: 80%;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 20px);
+}
+
+/* Two above three. The top row starts a column in, and that empty cell is
+   what leaves the picture its corner. Placed explicitly: auto flow would
+   pull the third tile up into the gap. */
+.pl-pstat:nth-child(1) { grid-area: 1 / 2 }
+.pl-pstat:nth-child(2) { grid-area: 1 / 3 }
+.pl-pstat:nth-child(3) { grid-area: 2 / 1 }
+.pl-pstat:nth-child(4) { grid-area: 2 / 2 }
+.pl-pstat:nth-child(5) { grid-area: 2 / 3 }
+
+.pl-pstat {
+  position: relative;
+  min-width: 0;                /* never let a long figure widen its column */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  justify-content: space-between;
+  padding: clamp(16px, 2.2vw, 30px) clamp(18px, 2.8vw, 40px);
+  border-radius: clamp(16px, 1.8vw, 25px);
+  min-height: clamp(150px, 17vw, 250px);
+  background: rgba(255, 255, 255, .19);
+  border: 1px solid rgba(255, 255, 255, .17);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
+  transition: background .25s, border-color .25s, transform .3s cubic-bezier(.22, .68, .3, 1);
+}
+
+/* without backdrop-filter the tile would be a pale wash over a photo —
+   fall back to something solid enough to read */
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))) {
+  .pl-pstat { background: rgba(9, 18, 17, .62) }
+}
+
+.pl-pstat:hover {
+  background: rgba(255, 255, 255, .26);
+  border-color: rgba(79, 209, 194, .46);
+  transform: translateY(-3px);
+}
+
+.pl-pstatico {
+  color: var(--pf-accent);
+  line-height: 0;
+  margin-bottom: auto;
+}
+
+.pl-pstatico svg path { stroke-width: .95 }
+
+.pl-pstatico svg {
+  width: clamp(34px, 4.4vw, 64px);
+  height: clamp(34px, 4.4vw, 64px);
+}
+
+.pl-pstat .pl-countval {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 1px;
+  font-size: clamp(30px, 3.4vw, 56px);
+  font-weight: 600;
+  letter-spacing: -.042em;
+  line-height: 1;
+  color: var(--pf-ink);
+  margin-top: 14px;
+  white-space: nowrap;
+}
+
+.pl-pstat .pl-countsuffix {
+  font-size: .46em;
+  color: var(--pf-accent);
+  font-weight: 600;
+  line-height: 1;
+  margin-top: .12em;
+}
+
+.pl-pstatlabel {
+  margin: 8px 0 0;
+  font-size: clamp(13px, 1.25vw, 18px);
+  font-weight: 500;
+  letter-spacing: -.005em;
+  line-height: 1.35;
+  color: var(--pf-accent);
+}
+
+.pl-pstatslot {
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .6);
+}
+
+/* ---- arrival ---- */
+.pl-proof[data-run="0"] .pl-pstat {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.pl-proof[data-run="1"] .pl-pstat {
+  animation: pl-pstatin .6s cubic-bezier(.22, .68, .3, 1) both;
+  animation-delay: calc(.12s + var(--i) * 0.09s);
+}
+
+@keyframes pl-pstatin {
+  from { opacity: 0; transform: translateY(16px) }
+  to   { opacity: 1; transform: none }
+}
+
+/* =========================================================
+   Responsive: the grid sheds a column at a time.
+   ========================================================= */
+
+@media (max-width: 1280px) {
+  .pl-proof {
+    width: 86%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pl-proof {
+    width: 100%;
+    margin-inline: 0;
+    min-height: 0;
+    align-items: stretch;
+    border-radius: 22px;
+  }
+
+  /* the picture no longer has room to be only a backdrop on the right */
+  .pl-proofscrim {
+    background: linear-gradient(to bottom, rgba(9, 18, 17, .34), rgba(9, 18, 17, .78));
+  }
+
+  .pl-proofstats {
+    width: 100%;
+    margin-left: 0;
+    padding: clamp(14px, 2.4vw, 20px);
+  }
+
+  /* the desktop placement no longer applies — let them flow */
+  .pl-pstat:nth-child(n) { grid-area: auto }
+}
+
+@media (max-width: 768px) {
+  .pl-proof {
+  }
+
+  .pl-proofstats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pl-proofbg { object-position: 40% center }
+}
+
+@media (max-width: 600px) {
+  .pl-proof {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .pl-proof {
+  }
+
+  /* two columns would leave 46,000+ nowhere to go */
+  .pl-proofstats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pl-proofbg { object-position: 46% center }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-proofbg { transform: none; transition: none }
+  .pl-proof[data-run="0"] .pl-pstat { opacity: 1; transform: none }
+  .pl-proof[data-run="1"] .pl-pstat { animation: none }
+  .pl-pstat:hover { transform: none }
+}

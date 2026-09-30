@@ -1,0 +1,261 @@
+/* =========================================
+   MEDORA THEME TOKENS
+   Light + Dark, read by every stylesheet.
+
+   Rules of the system:
+   - Every token below exists in BOTH themes with the same meaning.
+   - Never use a surface token as a text colour (or the reverse).
+   - Text over photography uses the --on-media group, not --bg/--outer.
+========================================= */
+
+:root,
+.pl {
+  /* ---------- LIGHT THEME ---------- */
+
+  color-scheme: light;
+
+  /* Surfaces: outer = page frame, bg = content column, surface = raised */
+  --bg: #ffffff;
+  --outer: #f7faf9;
+  --surface: #f4f7f6;
+  --surface2: #eef4f2;
+
+  /* Text: ink = headings, body = paragraphs, muted = secondary */
+  --ink: #14201e;
+  --body: #4f5d59;
+  --muted: #6f7d79;
+
+  /* Borders */
+  --line: #dce6e3;
+  --line-soft: #e8efed;
+  --grid: #dce8e5;
+
+  /* Medora Teal */
+  --accent: #008c82;
+  --accent-ink: #ffffff;
+  --accent-quiet: rgba(0, 140, 130, 0.10);
+
+  /* Healthcare / illustration colors */
+  --city-fill: #f7fbfa;
+  --city-stroke: #c8d8d4;
+  --city-win: #e2efec;
+  --city-lit: #d5ebe7;
+
+  /* Terminal / code blocks — intentionally dark in both themes */
+  --term-bg: #14201e;
+  --term-ink: #d8e5e2;
+
+  /* Background grid */
+  --rule: rgba(0, 140, 130, 0.10);
+
+  /* Elevation */
+  --shadow-pop: 0 18px 40px -24px rgba(20, 32, 30, 0.40);
+
+  /* Comparison figures — the friction half of a before/after diagram.
+     Clay, so it reads as "costly" beside the teal without alarming. */
+  --warn: #c4704e;
+  --warn-quiet: rgba(196, 112, 78, 0.11);
+  --panel-warm: #fdfaf7;
+  --panel-cool: #f4faf9;
+}
+
+
+/* =========================================
+   ROOT PRESENTATION
+   Tokens live on :root so the page paints correctly before React
+   mounts; these presentational rules stay on .pl only.
+========================================= */
+
+.pl {
+  font-family: 'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: var(--ink);
+  background: var(--outer);
+
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================
+   DARK THEME
+========================================= */
+
+:root[data-theme="dark"],
+.pl[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #101918;
+  --outer: #0a1211;
+  --surface: #15201e;
+  --surface2: #1b2926;
+
+  --ink: #eef7f5;
+  --body: #b2c0bd;
+  --muted: #96aaa5;
+
+  --line: #293b37;
+  --line-soft: #20302d;
+  --grid: #253733;
+
+  /* Accent */
+  --accent: #35bdb1;
+  --accent-ink: #07100f;
+  --accent-quiet: rgba(53, 189, 177, 0.14);
+
+  /* Healthcare / illustration colors */
+  --city-fill: #172522;
+  --city-stroke: #38504b;
+  --city-win: #263a35;
+  --city-lit: #2f4a45;
+
+  /* Terminal */
+  --term-bg: #080e0d;
+  --term-ink: #b8ccc8;
+
+  /* Background grid */
+  --rule: rgba(53, 189, 177, 0.08);
+
+  /* Elevation — darker and deeper, shadows read weakly on dark ground */
+  --shadow-pop: 0 18px 40px -20px rgba(0, 0, 0, 0.72);
+
+  /* Comparison figures */
+  --warn: #e08a63;
+  --warn-quiet: rgba(224, 138, 99, 0.16);
+  --panel-warm: #191310;
+  --panel-cool: #0d1717;
+}
+
+
+/* =========================================
+   ON-MEDIA TOKENS
+
+   For content laid over photography or video. A scrimmed photo is
+   dark in both themes, so these deliberately do NOT flip — they are
+   declared once and inherited by the dark theme.
+========================================= */
+
+:root,
+.pl {
+  --scrim: rgba(8, 14, 13, 0.48);
+  --on-media: #ffffff;
+  --on-media-soft: rgba(255, 255, 255, 0.86);
+  --on-media-muted: rgba(255, 255, 255, 0.68);
+  --on-media-line: rgba(255, 255, 255, 0.34);
+  --on-media-surface: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme="dark"],
+.pl[data-theme="dark"] {
+  /* the photo already sits on a dark page — lift the scrim slightly */
+  --scrim: rgba(4, 8, 8, 0.56);
+}
+
+
+/* =========================================
+   SMOOTH SCROLLING
+
+   Site-wide, and off for anyone who asks for reduced motion — a scroll
+   that animates is a common vestibular trigger. Because it lives here
+   rather than in each handler, every in-page jump inherits it: the anchor
+   rail, the header menu and any future link get the same behaviour, and
+   the same opt-out, without repeating the check.
+========================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+
+/* =========================================
+   GLOBAL BOX SIZING
+========================================= */
+
+.pl *,
+.pl *::before,
+.pl *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   PAGE BACKGROUND
+========================================= */
+
+.pl {
+  min-height: 100vh;
+
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      var(--rule) 0 1px,
+      transparent 1px 5px
+    );
+}
+
+
+/* =========================================
+   TEXT SELECTION
+========================================= */
+
+.pl ::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+.pl :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.pl-col {
+  width: min(100%, 96%);
+  margin: 0 auto;
+
+  background: var(--bg);
+
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+
+/* =========================================
+   SCREEN READER ONLY
+========================================= */
+
+.pl-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+  margin: 0;
+  background: var(--outer);
+}

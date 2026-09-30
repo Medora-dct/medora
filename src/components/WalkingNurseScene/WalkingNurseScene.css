@@ -1,0 +1,589 @@
+/* ==================================================================
+   WalkingNurseScene
+   Tokens → layout → parallax → scenery ink → the nurse → motion →
+   accessibility. Only transform and opacity are ever animated.
+   ================================================================== */
+
+/* ---------------------------- 1. Tokens --------------------------- */
+
+.ws-scene {
+  /* palette: warm paper, soft graphite ink, clinical teal */
+  --ws-paper: #fdfaf2;
+  --ws-bg-top: transparent;
+  --ws-bg-bottom: transparent;
+  --ws-ink: #42403a;
+  --ws-ink-soft: #9a958a;
+  --ws-ghost: #e4ded0;
+  --ws-teal: #2c7f84;
+  --ws-teal-deep: #1e5f64;
+  --ws-teal-soft: #cfe4e3;
+  --ws-amber: #e3a93f;
+  --ws-amber-soft: #f7dfa8;
+  --ws-clay: #cf7354;
+  --ws-sage: #9aae86;
+  --ws-steel: #c3cbcd;
+  --ws-skin: #eec09a;
+  --ws-hair: #4c3b31;
+  --ws-win: #eef1ee;
+
+  /* motion */
+  --ws-speed: 1;
+  --ws-stride: 0.74s;
+  --ws-cycle: calc(var(--ws-stride) / var(--ws-speed));
+  --ws-half: calc(var(--ws-cycle) / 2);
+
+  /* layout */
+  --ws-hero-x: 34%;
+
+  position: relative;
+  width: 100%;
+  height: clamp(140px, 32vw, 220px);
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint style;
+  background: linear-gradient(to bottom, var(--ws-bg-top) 0%, var(--ws-bg-bottom) 100%);
+}
+
+/* the hairline horizon from the reference sketch */
+.ws-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--ws-ghost);
+  z-index: 8;
+}
+
+/* The ground line spans the container rather than living inside a tile, so it
+   cannot show a seam, a gap, or a filter jog no matter how many tiles are on
+   screen. y=340 of the 400-unit tile is 85% of the height. */
+.ws-scene::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 85%;
+  height: max(1.5px, 0.65%);
+  background: var(--ws-ink);
+  z-index: 5;
+}
+
+.ws-layer--kerb::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 88.25%;
+  height: max(1px, 0.35%);
+  background: var(--ws-ink-soft);
+}
+
+.ws-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* --------------------------- 2. Parallax -------------------------- */
+
+.ws-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* keeps each layer's paint work inside its own box, which matters once a
+     wide viewport needs four or five tile copies per layer */
+  contain: paint;
+}
+
+/* One svg element per layer, --ws-count tiles wide. height:100%/width:auto keeps the
+   4:1 tile aspect exact at any size. */
+.ws-track {
+  display: block;
+  height: 100%;
+  width: auto;
+  overflow: visible;
+  will-change: transform;
+  animation: ws-scroll var(--ws-dur) linear infinite;
+  animation-duration: calc(var(--ws-dur) / var(--ws-speed));
+}
+
+/* The strip is --ws-count tiles wide, so travelling 100%/count of its own
+   width is exactly one tile: the restart lands on identical pixels at every
+   viewport size, and resizing the width changes the count without shifting
+   what is already on screen. */
+@keyframes ws-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-100% / var(--ws-count, 2)), 0, 0); }
+}
+
+.ws-layer--sky  { opacity: 0.9; }
+.ws-layer--far  { opacity: 0.85; }
+.ws-layer--fore { opacity: 0.9; }
+
+/* ------------------------- 3. Scenery ink ------------------------- */
+
+.ws-paper {
+  fill: var(--ws-paper);
+  stroke: var(--ws-ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.ws-line {
+  fill: none;
+  stroke: var(--ws-ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ws-line-soft {
+  fill: none;
+  stroke: var(--ws-ink-soft);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.ws-hair-line {
+  fill: none;
+  stroke: var(--ws-ink-soft);
+  stroke-width: 1.2;
+}
+
+.ws-mid   { opacity: 0.94; }
+.ws-mid .ws-paper,
+.ws-mid .ws-line { stroke-width: 1.9; }
+
+.ws-ghost rect {
+  fill: none;
+  stroke: var(--ws-ghost);
+  stroke-width: 2;
+}
+.ws-ghost .ws-win { fill: none; stroke: var(--ws-ghost); stroke-width: 1.2; }
+
+.ws-win {
+  fill: var(--ws-win);
+  stroke: var(--ws-ink-soft);
+  stroke-width: 1.4;
+}
+.ws-win--lit { fill: var(--ws-amber-soft); }
+
+.ws-door { fill: var(--ws-teal-soft); stroke: var(--ws-ink); stroke-width: 1.8; }
+.ws-door--glass { fill: var(--ws-win); }
+.ws-dot { fill: var(--ws-amber); }
+.ws-dot--stop { fill: var(--ws-clay); }
+.ws-dot--wait { fill: var(--ws-amber-soft); }
+.ws-dot--go   { fill: var(--ws-sage); }
+
+.ws-roof { stroke: var(--ws-ink); stroke-width: 2; stroke-linejoin: round; }
+.ws-roof--clay  { fill: var(--ws-clay); }
+.ws-roof--sage  { fill: var(--ws-sage); }
+.ws-roof--amber { fill: var(--ws-amber); }
+
+.ws-awning { fill: var(--ws-teal); stroke: var(--ws-ink); stroke-width: 1.6; stroke-linejoin: round; }
+.ws-sign { fill: var(--ws-paper); stroke: var(--ws-ink); stroke-width: 1.8; }
+.ws-sign--street { fill: var(--ws-teal-soft); }
+.ws-sign-text {
+  font: 600 9px/1 ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  fill: var(--ws-teal-deep);
+  letter-spacing: 0.02em;
+}
+.ws-cross { fill: none; stroke: var(--ws-teal); stroke-width: 3.4; stroke-linecap: round; }
+.ws-cross--sm { stroke-width: 2.6; }
+
+.ws-trunk { fill: none; stroke: var(--ws-ink); stroke-width: 3; stroke-linecap: round; }
+.ws-leaf  { fill: var(--ws-sage); stroke: var(--ws-ink); stroke-width: 1.8; stroke-linejoin: round; }
+.ws-leaf--low { fill: var(--ws-sage); opacity: 0.92; }
+.ws-stem  { fill: none; stroke: var(--ws-sage); stroke-width: 2; stroke-linecap: round; }
+
+.ws-lamp  { fill: var(--ws-amber-soft); stroke: var(--ws-ink); stroke-width: 1.8; }
+.ws-glow  { fill: var(--ws-amber); opacity: 0.12; }
+
+.ws-wheel { fill: var(--ws-paper); stroke: var(--ws-ink); stroke-width: 2.2; }
+.ws-car-body { stroke: var(--ws-ink); stroke-width: 2; stroke-linejoin: round; }
+.ws-car--steel .ws-car-body { fill: var(--ws-steel); }
+.ws-car--clay  .ws-car-body { fill: var(--ws-clay); }
+
+.ws-van-body  { fill: var(--ws-teal); stroke: var(--ws-ink); stroke-width: 2; stroke-linejoin: round; }
+.ws-van-glass { fill: var(--ws-win); stroke: var(--ws-ink); stroke-width: 1.6; }
+.ws-van-panel { fill: var(--ws-paper); stroke: var(--ws-ink); stroke-width: 1.6; }
+
+.ws-hydrant { fill: var(--ws-clay); stroke: var(--ws-ink); stroke-width: 1.8; stroke-linejoin: round; }
+
+.ws-paving { stroke: var(--ws-ink-soft); stroke-width: 1.3; stroke-linecap: round; }
+.ws-tuft   { fill: none; stroke: var(--ws-sage); stroke-width: 1.8; stroke-linecap: round; }
+.ws-tuft--big { stroke-width: 2.6; }
+
+.ws-cloud { fill: #fffdf7; stroke: var(--ws-ghost); stroke-width: 1.6; stroke-linejoin: round; }
+.ws-bird  { fill: none; stroke: var(--ws-ink-soft); stroke-width: 1.4; stroke-linecap: round; }
+
+/* visit markers — the product idea, stated quietly */
+.ws-pin { fill: var(--ws-teal); stroke: var(--ws-ink); stroke-width: 1.6; stroke-linejoin: round; }
+.ws-pin--done { fill: var(--ws-sage); }
+.ws-pin-mark { fill: none; stroke: var(--ws-paper); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --------------------------- 4. The nurse ------------------------- */
+
+.ws-hero {
+  position: absolute;
+  bottom: 0;
+  left: var(--ws-hero-x);
+  height: 100%;
+  width: auto;
+  z-index: 6;
+  transform: translateX(-50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* joint rotations are expressed in viewBox units */
+.ws-hero g { transform-box: view-box; }
+
+.ws-scrub {
+  fill: var(--ws-teal);
+  stroke: var(--ws-ink);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+.ws-scrub-line { fill: none; stroke: var(--ws-teal-deep); stroke-width: 2; stroke-linecap: round; }
+.ws-vneck { fill: none; stroke: var(--ws-teal-deep); stroke-width: 2.2; stroke-linejoin: round; }
+.ws-pocket { fill: none; stroke: var(--ws-teal-deep); stroke-width: 1.8; }
+
+.ws-sleeve {
+  fill: none;
+  stroke: var(--ws-teal-deep);
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+.ws-sleeve--front { stroke: var(--ws-teal); }
+.ws-skin-line {
+  fill: none;
+  stroke: var(--ws-skin);
+  stroke-width: 8.5;
+  stroke-linecap: round;
+}
+.ws-skin { fill: var(--ws-skin); stroke: var(--ws-ink); stroke-width: 1.8; }
+.ws-neck { fill: var(--ws-skin); stroke: none; }
+
+.ws-trouser {
+  fill: none;
+  stroke: #37525c;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+.ws-trouser--front { stroke: #41616d; }
+.ws-shoe { fill: #f4f1e8; stroke: var(--ws-ink); stroke-width: 1.8; stroke-linejoin: round; }
+.ws-shoe--front { fill: #ffffff; }
+
+.ws-hair { fill: var(--ws-hair); stroke: none; }
+.ws-eye { fill: var(--ws-ink); }
+.ws-face-line { fill: none; stroke: var(--ws-ink); stroke-width: 1.5; stroke-linecap: round; }
+
+.ws-steth-tube { fill: none; stroke: var(--ws-ink); stroke-width: 2.6; stroke-linecap: round; }
+.ws-steth-bell { fill: var(--ws-steel); stroke: var(--ws-ink); stroke-width: 1.8; }
+
+.ws-pack-body { fill: var(--ws-clay); stroke: var(--ws-ink); stroke-width: 2; stroke-linejoin: round; }
+.ws-pack-flap { fill: #b8613f; stroke: var(--ws-ink); stroke-width: 1.6; stroke-linejoin: round; }
+
+.ws-bag { fill: var(--ws-paper); stroke: var(--ws-ink); stroke-width: 2.2; }
+.ws-bag-band { stroke: var(--ws-teal); stroke-width: 3; }
+.ws-bag-handle { fill: none; stroke: var(--ws-ink); stroke-width: 2.2; stroke-linecap: round; }
+
+.ws-shadow { fill: var(--ws-ink); opacity: 0.14; }
+.ws-dust path { fill: var(--ws-ink-soft); opacity: 0; }
+
+/* limbs on the far side of the body read as shaded */
+.ws-limb-back { opacity: 0.78; }
+
+/* ---------------------------- 5. Motion --------------------------- */
+
+/* Base transforms below double as the still pose for reduced motion. */
+
+.ws-a-body {
+  transform: translateY(0);
+  transform-origin: 120px 260px;
+  animation: ws-bob var(--ws-half) ease-in-out infinite;
+}
+
+.ws-a-thigh {
+  transform-origin: 120px 258px;
+  animation: ws-thigh var(--ws-cycle) linear infinite;
+}
+.ws-a-thigh--a { transform: rotate(-22deg); }
+.ws-a-thigh--b { transform: rotate(16deg); animation-delay: calc(var(--ws-half) * -1); }
+
+.ws-a-shin {
+  transform-origin: 120px 298px;
+  animation: ws-shin var(--ws-cycle) linear infinite;
+}
+.ws-a-shin--a { transform: rotate(4deg); }
+.ws-a-shin--b { transform: rotate(16deg); animation-delay: calc(var(--ws-half) * -1); }
+
+.ws-a-foot {
+  transform-origin: 120px 332px;
+  animation: ws-foot var(--ws-cycle) linear infinite;
+}
+.ws-a-foot--b { animation-delay: calc(var(--ws-half) * -1); }
+
+.ws-a-arm {
+  transform-origin: 120px 204px;
+  animation: ws-arm var(--ws-cycle) ease-in-out infinite;
+}
+/* the loaded arm swings shorter and heavier than the free one */
+.ws-a-arm--a {
+  transform: rotate(9deg);
+  animation-name: ws-arm-loaded;
+  animation-delay: calc(var(--ws-half) * -1);
+}
+.ws-a-arm--b { transform: rotate(-18deg); }
+
+.ws-a-forearm {
+  transform-origin: 120px 232px;
+  animation: ws-forearm var(--ws-cycle) ease-in-out infinite;
+}
+.ws-a-forearm--a {
+  transform: rotate(10deg);
+  animation-name: ws-forearm-loaded;
+  animation-delay: calc(var(--ws-half) * -1);
+}
+.ws-a-forearm--b { transform: rotate(14deg); }
+
+.ws-a-bag {
+  transform-origin: 120px 260px;
+  animation: ws-bag var(--ws-cycle) ease-in-out infinite;
+  animation-delay: calc(var(--ws-half) * -0.82);
+}
+
+.ws-a-hair {
+  transform-origin: 108px 168px;
+  animation: ws-hair var(--ws-half) ease-in-out infinite;
+}
+
+.ws-a-steth {
+  transform-origin: 120px 202px;
+  animation: ws-steth var(--ws-half) ease-in-out infinite;
+}
+
+.ws-a-shadow {
+  transform-box: view-box;
+  transform-origin: 124px 342px;
+  animation: ws-shadow var(--ws-half) ease-in-out infinite;
+}
+
+.ws-a-dust {
+  animation: ws-dust calc(var(--ws-cycle) * 2) linear infinite;
+}
+
+.ws-a-pin {
+  transform-box: view-box;
+  animation: ws-float calc(4s / var(--ws-speed)) ease-in-out infinite;
+}
+
+@keyframes ws-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* contact → mid-stance → toe-off → swing */
+@keyframes ws-thigh {
+  0%   { transform: rotate(-22deg); }
+  15%  { transform: rotate(-13deg); }
+  35%  { transform: rotate(4deg); }
+  50%  { transform: rotate(18deg); }
+  62%  { transform: rotate(13deg); }
+  80%  { transform: rotate(-8deg); }
+  100% { transform: rotate(-22deg); }
+}
+
+@keyframes ws-shin {
+  0%   { transform: rotate(4deg); }
+  18%  { transform: rotate(1deg); }
+  38%  { transform: rotate(7deg); }
+  50%  { transform: rotate(16deg); }
+  63%  { transform: rotate(48deg); }
+  75%  { transform: rotate(39deg); }
+  90%  { transform: rotate(11deg); }
+  100% { transform: rotate(4deg); }
+}
+
+@keyframes ws-foot {
+  0%   { transform: rotate(7deg); }
+  20%  { transform: rotate(-3deg); }
+  50%  { transform: rotate(-13deg); }
+  64%  { transform: rotate(-18deg); }
+  82%  { transform: rotate(2deg); }
+  100% { transform: rotate(7deg); }
+}
+
+@keyframes ws-arm {
+  0%   { transform: rotate(-18deg); }
+  50%  { transform: rotate(20deg); }
+  100% { transform: rotate(-18deg); }
+}
+
+@keyframes ws-forearm {
+  0%   { transform: rotate(14deg); }
+  30%  { transform: rotate(4deg); }
+  60%  { transform: rotate(20deg); }
+  100% { transform: rotate(14deg); }
+}
+
+@keyframes ws-arm-loaded {
+  0%   { transform: rotate(-9deg); }
+  50%  { transform: rotate(12deg); }
+  100% { transform: rotate(-9deg); }
+}
+
+@keyframes ws-forearm-loaded {
+  0%   { transform: rotate(13deg); }
+  50%  { transform: rotate(6deg); }
+  100% { transform: rotate(13deg); }
+}
+
+@keyframes ws-bag {
+  0%   { transform: rotate(5deg); }
+  50%  { transform: rotate(-6deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes ws-hair {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(5deg); }
+}
+
+@keyframes ws-steth {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+
+@keyframes ws-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.16; }
+  50%      { transform: scaleX(0.9); opacity: 0.11; }
+}
+
+@keyframes ws-dust {
+  0%   { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  12%  { opacity: 0.45; }
+  100% { transform: translate(-52px, -12px) scale(1.3); opacity: 0; }
+}
+
+@keyframes ws-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* ------------------------ 6. Pause + a11y ------------------------- */
+
+.ws-scene.is-paused .ws-track,
+.ws-scene.is-paused [class*="ws-a-"] {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-scene .ws-track,
+  .ws-scene [class*="ws-a-"] {
+    animation: none !important;
+  }
+  .ws-scene .ws-dust { display: none; }
+  .ws-scene .ws-a-shadow { opacity: 0.14; }
+}
+
+/* ------------------------- 7. Responsive -------------------------- */
+
+@media (max-width: 720px) {
+  .ws-scene {
+    height: clamp(200px, 52vw, 300px);
+    --ws-hero-x: 30%;
+  }
+  /* trim the busiest layer so small screens stay legible and cheap */
+  .ws-scene .ws-layer--fore { display: none; }
+}
+
+@media (max-width: 420px) {
+  .ws-scene .ws-layer--sky { display: none; }
+}
+
+/* ------------------------------------------------------------------ *
+ * 9. Caption
+ * The line is set into the street rather than floated above it: same
+ * stacking level as the kerb but later in the DOM, so it paints over the
+ * buildings while the nurse, one level up, walks in front of it. A paper
+ * halo rather than a box keeps it legible over the busy skyline without
+ * putting a UI panel on top of the drawing.
+ * ------------------------------------------------------------------ */
+
+.ws-cap {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: 0 4vw;
+  pointer-events: none;
+}
+
+.ws-capline {
+  margin: 0;
+  transform: translateY(-4%);
+  text-align: center;
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(19px, 3.9vw, 46px);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  color: var(--ws-ink);
+  text-shadow:
+    0 0 22px var(--ws-paper),
+    0 0 10px var(--ws-paper),
+    0 0 4px var(--ws-paper);
+  animation: ws-cap-in .7s cubic-bezier(.22, .68, .3, 1) .3s both;
+}
+
+.ws-capmark {
+  position: relative;
+  color: var(--ws-teal);
+  white-space: nowrap;
+}
+
+/* hand-drawn underline, drawn on after the line has settled */
+.ws-capunder {
+  position: absolute;
+  left: -1%;
+  right: -3%;
+  bottom: -.16em;
+  width: 104%;
+  height: .26em;
+  overflow: visible;
+}
+
+.ws-capunder path {
+  fill: none;
+  stroke: var(--ws-teal);
+  stroke-width: 5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: ws-cap-draw .6s cubic-bezier(.22, .68, .3, 1) .85s both;
+}
+
+@keyframes ws-cap-in {
+  from { opacity: 0; transform: translateY(2%) }
+  to   { opacity: 1; transform: translateY(-4%) }
+}
+
+@keyframes ws-cap-draw {
+  to { stroke-dashoffset: 0 }
+}
+
+@media (max-width: 640px) {
+  .ws-cap { padding: 0 6vw }
+  .ws-capline { letter-spacing: -.028em }
+  .ws-capunder path { stroke-width: 3.4 }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-capline { animation: none; transform: translateY(-4%) }
+  .ws-capunder path { animation: none; stroke-dashoffset: 0 }
+}

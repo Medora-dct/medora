@@ -1,0 +1,14 @@
+/* ---------- device frames (spec 4.7) ---------- */
+.pl-phone{
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface2);
+  padding:6px;width:100%;max-width:200px;
+}
+.pl-phone img{display:block;width:100%;height:auto;border-radius:12px}
+.pl-phone[data-blur="1"] img{filter:blur(7px);opacity:.5}
+.pl-laptop{border:1px solid var(--line);background:var(--surface);padding:10px 10px 0}
+.pl-laptop-inner{border:1px solid var(--line);background:var(--bg);min-height:190px;position:relative;overflow:hidden}
+.pl-laptop-foot{height:8px;border-top:1px solid var(--line);margin:10px -10px 0;background:var(--surface2)}
+.pl-previewnote{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;
+  color:var(--muted);margin-top:10px;line-height:1.6;
+}

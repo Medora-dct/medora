@@ -1,0 +1,227 @@
+/* ---------- figure label (spec 4.7) ---------- */
+.pl-sec {
+  border-top: 1px solid var(--line);
+  position: relative;
+  scroll-margin-top: 76px
+}
+
+.pl-fig {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-50%);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  padding: 5px 11px;
+  z-index: 2;
+}
+
+.pl-fig-end {
+  position: absolute;
+  top: -7px;
+  right: 0;
+  width: 1px;
+  height: 14px;
+  background: var(--accent)
+}
+
+.pl-wrap {
+  padding: 74px 26px
+}
+
+.pl-center {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto
+}
+
+.pl-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.pl-h1 {
+  font-size: clamp(33px, 4.7vw, 60px);
+  line-height: 1.07;
+  letter-spacing: -.035em;
+  font-weight: 500;
+  margin: 0;
+  color: var(--ink);
+}
+
+.pl-h2 {
+  font-size: clamp(25px, 3.2vw, 36px);
+  line-height: 1.18;
+  letter-spacing: -.03em;
+  font-weight: 500;
+  margin: 0
+}
+
+/* second half of a two-tone heading */
+.pl-h2soft {
+  color: var(--muted)
+}
+
+.pl-h3 {
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  margin: 0
+}
+
+.pl-lede {
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: var(--body);
+  margin: 0;
+  max-width: 60ch;
+}
+
+.pl-sub {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--body);
+  margin: 14px auto 0;
+  max-width: 58ch
+}
+
+.pl-link {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 4px 0;
+}
+
+.pl-link:hover {
+  color: var(--accent)
+}
+
+.pl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--ink);
+  transition: background .15s, border-color .15s;
+}
+
+.pl-btn.pl-solid {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 500
+}
+
+.pl-btn.pl-solid:hover {
+  filter: brightness(1.06)
+}
+
+.pl-btn.pl-ghost {
+  border-color: var(--line)
+}
+
+.pl-btn.pl-ghost:hover {
+  background: var(--surface)
+}
+
+.pl-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap
+}
+
+.mt-50 {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.pl-sec#hero {
+  position: relative;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pl-sec#hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  z-index: 1;
+}
+
+/* =========================================
+   HERO — content over photography
+
+   The hero lays type over a scrimmed image, so it opts out of the
+   page ink/surface tokens and uses the --on-media group instead.
+   Identical in light and dark: the scrim is dark either way.
+========================================= */
+
+.pl-sec#hero .pl-h1 {
+  color: var(--on-media);
+}
+
+.pl-sec#hero .pl-lede {
+  color: var(--on-media-soft);
+}
+
+.pl-sec#hero .pl-eyebrow,
+.pl-sec#hero .pl-trustline {
+  color: var(--on-media-muted);
+}
+
+.pl-sec#hero .pl-btn.pl-ghost {
+  color: var(--on-media);
+  border-color: var(--on-media-line);
+}
+
+.pl-sec#hero .pl-btn.pl-ghost:hover {
+  background: var(--on-media-surface);
+}
+
+.pl-sec#hero .pl-chip {
+  color: var(--on-media-soft);
+  background: var(--on-media-surface);
+  border-color: var(--on-media-line);
+  backdrop-filter: blur(2px);
+}
+
+.pl-sec#hero .pl-chip[data-live="0"] {
+  color: var(--on-media-muted);
+}
+
+.pl-sec#hero .pl-chip[data-live="0"] i {
+  border-color: var(--on-media-muted);
+}

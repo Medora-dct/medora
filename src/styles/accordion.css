@@ -1,0 +1,17 @@
+/* ---------- accordion (FAQs) ---------- */
+.pl-acc{border-top:1px solid var(--line);margin-top:8px}
+.pl-accq{
+  width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);
+  padding:18px 4px;cursor:pointer;font-family:inherit;font-size:16px;color:var(--ink);
+  display:flex;justify-content:space-between;gap:20px;align-items:center;
+}
+.pl-accq:hover{color:var(--accent)}
+.pl-accq i{font-style:normal;color:var(--muted);flex:none;font-size:18px;line-height:1}
+.pl-acca{
+  padding:0 4px 20px;font-size:14.5px;line-height:1.65;color:var(--body);
+  border-bottom:1px solid var(--line);max-width:74ch;
+}
+.pl-accgroup{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;
+  color:var(--muted);margin:34px 0 6px;
+}

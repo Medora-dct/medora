@@ -1,0 +1,84 @@
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .pl-nav{display:none}
+  .pl-mobtools{display:flex;align-items:center;gap:8px}
+  .pl-burger{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+  .pl-mobmenu[data-on="1"]{display:block;position:sticky;top:63px;z-index:65;background:var(--bg);border-bottom:1px solid var(--line);max-height:70vh;overflow:auto}
+  .pl-railpage{grid-template-columns:1fr}
+  .pl-anchorrail{border-right:0;border-bottom:1px solid var(--line)}
+  .pl-anchorinner{position:static;display:flex;gap:8px;overflow-x:auto;padding:16px 20px}
+  .pl-anchorhead{display:none}
+  .pl-anchorlink{white-space:nowrap;border-left:0;border-bottom:2px solid transparent;padding:6px 2px}
+  .pl-anchorlink[data-on="1"]{border-left:0;border-bottom-color:var(--accent)}
+  .pl-mobsticky{
+    display:block;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:12px 16px;
+    background:var(--bg);border-top:1px solid var(--line);
+  }
+  .pl-mobsticky button{width:100%;justify-content:center}
+  /* the bar is position:fixed, so reserve its height or it covers the footer */
+  .pl-col{padding-bottom:74px}
+}
+@media (max-width:900px){
+  .pl-hero{grid-template-columns:1fr;gap:30px;padding:60px 22px 48px}
+  .pl-grid3,.pl-reslist{grid-template-columns:1fr}
+  .pl-grid2,.pl-row2,.pl-checkgrid{grid-template-columns:1fr}
+  .pl-day{grid-template-columns:1fr;border-top:0}
+  .pl-daycell{border-right:0;border-top:2px solid var(--line);padding:18px 0 14px}
+  .pl-step{grid-template-columns:36px 1fr;gap:16px}
+  .pl-stepby{grid-column:2;text-align:left;padding-top:9px}
+  .pl-kvrow{grid-template-columns:1fr;gap:6px}
+  .pl-layer{grid-template-columns:24px 1fr;gap:12px}
+  .pl-layer span{grid-column:2}
+  .pl-ctainner{grid-template-columns:1fr;padding:48px 22px}
+  .pl-footcols{grid-template-columns:1fr 1fr}
+  .pl-wrap{padding:54px 22px}
+}
+/* ---------- phone ----------
+   Below 900px the layout is already single-column, but the spacing and
+   type are still desktop-sized. These two steps bring both down. */
+@media (max-width:640px){
+  .pl-wrap{padding:48px 18px}
+  .pl-hero{padding:46px 18px 42px;gap:26px}
+
+  .pl-h1{font-size:clamp(28px,8.4vw,38px)}
+  .pl-h2{font-size:clamp(22px,6.2vw,28px)}
+  .pl-h3{font-size:18px}
+  .pl-lede{font-size:15.5px}
+  .pl-sub{font-size:14px}
+
+  /* side-by-side CTAs squeeze below ~340px — give them a row each */
+  .pl-ctas{gap:10px}
+  .pl-ctas .pl-btn{flex:1 1 100%;justify-content:center}
+
+  .pl-chip{font-size:9.5px;padding:5px 10px;gap:6px}
+  .pl-chips{gap:7px}
+
+  .pl-grid2,.pl-grid3,.pl-reslist{gap:16px;margin-top:32px}
+  .pl-card{padding:20px 18px}
+  .pl-card h4{font-size:17.5px}
+  .pl-tile{padding-top:15px}
+  .pl-tile b{font-size:15px}
+  .pl-countval{font-size:27px}
+
+  .pl-principle{grid-template-columns:1fr;gap:6px;padding:20px 2px}
+  .pl-principle p{font-size:19px}
+
+
+  .pl-slot{font-size:9px;padding:14px 15px;letter-spacing:.08em}
+
+  .pl-footcols{grid-template-columns:1fr 1fr;gap:22px;padding:38px 18px}
+  .pl-footlegal{padding:18px 18px}
+}
+
+@media (max-width:420px){
+  .pl-wrap{padding:42px 15px}
+  .pl-hero{padding:40px 15px 38px}
+  .pl-countval{font-size:30px}
+  .pl-footcols{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pl-dline--flow{animation:none}
+  .pl *:not(.ws-track):not(.ws-dust):not([class*="ws-a-"]){animation-duration:.001ms!important}
+  .pl *{transition-duration:.001ms!important}
+}

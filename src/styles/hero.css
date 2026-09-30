@@ -1,0 +1,22 @@
+/* ---------- hero ---------- */
+.pl-hero {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 56px;
+    padding: 88px 26px 66px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+}
+
+.pl-hero-right {
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.pl-herovis {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+}
